@@ -59,7 +59,7 @@ def deal_damage(attacker, defender):
 	if crit == 2:
 		print("  Critical hit!")
 
-	print(f"  {defender.name} took {damage} dmg")
+	print(f"{defender.name} took {damage} dmg")
 	defender.hp -= damage
 
 	return defender
