@@ -2,10 +2,6 @@
 Chapitre 11.1
 """
 
-
-import math
-from inspect import *
-
 from game import *
 
 def main():
