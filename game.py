@@ -16,7 +16,7 @@ class Weapon:
 	:param power: Le niveau d'attaque
 	:param min_level: Le niveau minimal pour l'utiliser
 	"""
-	def __init__(self, name="Unarmed", power=UNARMED_POWER, min_level=0):
+	def __init__(self, name="Unarmed", power=UNARMED_POWER, min_level=1):
 		self.name = name
 		self.power = power
 		self.min_level = min_level
@@ -24,7 +24,7 @@ class Weapon:
 	def make_unarmed(self):
 		self.name = "Unarmed"
 		self.power = UNARMED_POWER
-		self.min_level = 0
+		self.min_level = 1
 
 class Character:
 	"""
@@ -43,21 +43,21 @@ class Character:
 		self.defense = defense
 		self.level = level
 		self.hp = self.max_hp
-		self.weapon = Weapon()
+		self.weapon = None
 
+	def compute_damage(self, attacker, defender):
+		damage_equation = (((((2 / 5) * attacker.level) + 2) * attacker.weapon.power * (
+					attacker.attack / defender.defense) / 50) + 2)
 
-def compute_damage(attacker, defender):
-	damage_equation = (((((2/5)*attacker.level)+2)*attacker.weapon.power*(attacker.attack/defender.defense)/50) + 2)
+		crit = 2 if random.randint(1, 16) == 1 else 1
+		modifier = crit * (random.randint(85, 100) / 100)
 
-	crit = 2 if random.randint(1, 16) == 1 else 1
-	modifier = crit * (random.randint(85, 100)/100)
-
-	return crit, damage_equation * modifier
+		return int(round(damage_equation * modifier)), crit
 
 
 def deal_damage(attacker, defender):
 	print(f"{attacker.name} used {attacker.weapon.name}")
-	crit, damage = compute_damage(attacker, defender)
+	damage, crit = attacker.compute_damage(attacker, defender)
 
 	if crit == 2:
 		print("  Critical hit!")
@@ -66,6 +66,14 @@ def deal_damage(attacker, defender):
 	defender.hp -= damage
 
 	return defender
+
+
+def check_weapon(c1, c2):
+	if c1.weapon.min_level > c1.level:
+		raise ValueError(c1.weapon)
+
+	if c2.weapon.min_level > c2.level:
+		raise ValueError(c2.weapon)
 
 
 def run_battle(c1, c2):
@@ -81,6 +89,8 @@ def run_battle(c1, c2):
 		if defender.hp <= 0:
 			print(f"{defender.name } is sleeping with the fishes.")
 			break
+
+
 
 		swap = attacker
 		attacker = defender

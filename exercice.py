@@ -11,6 +11,8 @@ def main():
 	c1.weapon = Weapon("BFG", 100, 69)
 	c2.weapon = Weapon("Deku Stick", 120, 1)
 
+	check_weapon(c1, c2)
+
 	turns, victor, loser = run_battle(c1, c2)
 	finish = random.choice(["finished", "decapitated", "annihilated", "man handled", "slaughtered"])
 
