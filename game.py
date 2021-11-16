@@ -17,11 +17,14 @@ class Weapon:
 	:param min_level: Le niveau minimal pour l'utiliser
 	"""
 	def __init__(self, name="Unarmed", power=UNARMED_POWER, min_level=0):
-
 		self.name = name
 		self.power = power
 		self.min_level = min_level
 
+	def make_unarmed(self):
+		self.name = "Unarmed"
+		self.power = UNARMED_POWER
+		self.min_level = 0
 
 class Character:
 	"""
@@ -59,7 +62,7 @@ def deal_damage(attacker, defender):
 	if crit == 2:
 		print("  Critical hit!")
 
-	print(f"{defender.name} took {damage} dmg")
+	print(f"  {defender.name} took {damage} dmg")
 	defender.hp -= damage
 
 	return defender
